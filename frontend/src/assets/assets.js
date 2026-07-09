@@ -37,10 +37,14 @@ import StrawberryBingsu from './images/StrawberryBingsu.png'
 import SweetPancake from './images/SweetPancake.jpg'
 import RiceCakes from './images/RiceCakes.jpg'
 import MochiIceCream from './images/MochiIceCream.jpg'
+import appStore from './images/appStore.svg'
+import playStore from './images/playStore.svg'
 
 
 export const assets = {
     logo,
+    appStore,
+    playStore
 };
 
 export const menu_list = [
