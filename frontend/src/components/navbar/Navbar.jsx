@@ -4,7 +4,7 @@ import { assets } from '../../assets/assets'
 import { Search, ShoppingBasketIcon } from 'lucide-react';
 import { Link } from 'react-router-dom'
 
-export const Navbar = () => {
+export const Navbar = ({setShowLogin}) => {
     const [menu, setMenu] = useState("home")
   return (
     <div className='navbar'>
@@ -23,7 +23,7 @@ export const Navbar = () => {
                 <ShoppingBasketIcon />
                 <div className='dot'></div>
             </div>
-            <button>Sign in</button>
+            <button onClick={()=>setShowLogin(true)}>Sign in</button>
         </div>
     </div>
   )
