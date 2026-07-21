@@ -2,11 +2,14 @@ import React, { useContext } from 'react'
 import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { Trash2 } from "lucide-react";
-
+import { useNavigate } from 'react-router-dom'
+ 
 
 const Cart = () => {
 
   const { cartItems, food_list, removeFromCart, addToCart, getTotalCartAmount } = useContext(StoreContext);
+
+  const navigate = useNavigate();
 
   return (
     <div className="cart">
@@ -60,17 +63,17 @@ const Cart = () => {
           </div>
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>$2</span>
+            <span>${getTotalCartAmount()=== 0?0:2}</span>
           </div>
           <div className="summary-row total">
             <strong>Total</strong>
-            <strong> ${getTotalCartAmount() + 2}</strong>
+            <strong> ${getTotalCartAmount()=== 0?0:getTotalCartAmount() + 2}</strong>
           </div>
           <div className="promo">
             <input type="text" placeholder="Promo Code" />
             <button>Apply</button>
           </div>
-          <button className="checkout-btn">
+          <button className="checkout-btn" onClick={()=>navigate('/order')}>
             Proceed to Checkout
           </button>
         </div>
