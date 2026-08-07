@@ -12,28 +12,36 @@ export const Navbar = ({ setShowLogin }) => {
     const { getTotalCartAmount } = useContext(StoreContext);
 
     return (
-        <div className='navbar'>
-            <Link to='/'><img src={assets.logo} alt='' className='logo' /></Link>
+        <nav className='navbar'>
+            <Link to='/'><img src={assets.logo} alt='HansikGo logo' className='logo' /></Link>
             <ul className='navbar-menu'>
+                <li>
                 <Link to='/' className={location.pathname === "/" && location.hash === ""
                     ? "active" : ""}>Home</Link>
+                </li>
+                <li>
                 <Link to="/#explore-menu" className={location.hash === "#explore-menu"
                     ? "active" : ""}>Menu</Link>
+                </li>
+                <li>
                 <Link to="/#app-download" className={location.hash === "#app-download"
                     ? "active" : ""}>Mobile App</Link>
+                </li>
+                <li>
                 <Link to="/#footer" className={location.hash === "#footer"
                     ? "active" : ""}>Contact us</Link>
+                </li>
             </ul>
             <div className='navbar-right'>
                 <div className='navbar-search'>
                     <Search />
                 </div>
                 <div className='navbar-Basket-icon'>
-                    <Link to='/cart'><ShoppingBasketIcon /></Link>
+                    <Link to='/cart' aria-label="Shopping Cart"><ShoppingBasketIcon /></Link>
                     <div className={getTotalCartAmount() === 0 ? "" : 'dot'}></div>
                 </div>
                 <button onClick={() => setShowLogin(true)}>Sign in</button>
             </div>
-        </div>
+        </nav>
     )
 }

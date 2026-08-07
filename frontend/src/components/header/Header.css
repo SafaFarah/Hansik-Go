@@ -18,7 +18,7 @@
     animation: fadeIn 3s;
 }
 
-.header-content h2 {
+.header-content h1 {
     font-weight: 500;
     color: white;
     font-size: max(3.5vw, 22px);
@@ -30,7 +30,7 @@
     max-width: 50%;
 }
 
-.header-content button {
+.view-menu-btn {
     border: 3px solid #013215;
     color:#013215;
     font-weight: 700;
@@ -41,7 +41,7 @@
     cursor: pointer;
     transition: 0.15s;
 }
-.header-content button:hover {
+.view-menu-btn:hover {
     color: white;
     background-color: #013215;
 }

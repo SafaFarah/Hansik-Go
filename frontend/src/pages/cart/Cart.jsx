@@ -12,7 +12,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="cart">
+    <section className="cart">
       <h1 className="cart-heading">Your Order</h1>
       <div className="cart-content">
         <div className="cart-list">
@@ -78,7 +78,7 @@ const Cart = () => {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
