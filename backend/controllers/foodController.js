@@ -4,23 +4,45 @@ import fs from 'fs';
 //add food item
 const addFood = async (req, res) => {
 
-  const imageFilename = req.file.filename;
-
-  const food = new FoodModel({
-    name: req.body.name,
-    image: imageFilename,
-    priceCent: req.body.priceCent,
-    description: req.body.description,
-    category: req.body.category
-  })
-
   try {
+    const { name, description, priceCent, category } = req.body
+
+    // Validate required fields
+    if (!name || !description || !priceCent || !category) {
+      return res.status(400).json({
+        message: "All food fields are required."
+      })
+    }
+
+    // Validate image
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Food image is required."
+      })
+    }
+
+    const price = Number(priceCent)
+
+    // Validate price
+    if (isNaN(price) || price < 0) {
+      return res.status(400).json({
+        message: "Price must be a valid positive number."
+      })
+    }
+
+    const food = new FoodModel({
+      name,
+      image: req.file.filename,
+      priceCent: price,
+      description,
+      category
+    })
+
     await food.save();
-    res.json({ success: true, message: "Food added" })
+    res.status(201).json({ message: "Food added successfully." })
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      success: false,
       message: "Failed to add food.",
     });
   }
@@ -58,11 +80,11 @@ const removeFood = async (req, res) => {
         console.error(err);
       }
     });
-    
+
     // delete food
     await food.deleteOne();
     res.json({ success: true, message: "Food removed" })
-    
+
   } catch (error) {
     console.error(error);
     res.status(500).json({

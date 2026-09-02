@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './Add.css'
 import { ImagePlus } from 'lucide-react'
+import api from '../../services/api'
+import { toast } from 'react-toastify'
 
 const Add = () => {
 
@@ -12,6 +14,8 @@ const Add = () => {
     category: ""
   })
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setData(prev => ({
@@ -20,15 +24,40 @@ const Add = () => {
     }))
   }
 
-  const onSubmitHandler = async(e) => {
+  const onSubmitHandler = async (e) => {
+
     e.preventDefault();
+
+    setIsLoading(true)
+
     const formData = new FormData();
     formData.append("name", data.name)
     formData.append("description", data.description)
-    formData.append("priceCent", Number(data.priceCent))
+    formData.append("priceCent", data.priceCent)
     formData.append("category", data.category)
     formData.append("image", image)
+
+    try {
+      const response = await api.post("/food/add", formData)
+
+      setData({
+        name: "",
+        description: "",
+        priceCent: "",
+        category: ""
+      })
+      setImage(null)
+      toast.success(response.data.message)
+
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Something went wrong."
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
+
 
   return (
     <div className='add'>
@@ -79,7 +108,9 @@ const Add = () => {
             <label htmlFor="food-category">
               Category
             </label>
-            <select onChange={onChangeHandler} id="food-category" name="category" required>
+            <select onChange={onChangeHandler}
+              value={data.category}
+              id="food-category" name="category" required>
               <option value="">Select category</option>
               <option value="Appetizers">Appetizers</option>
               <option value="BBQ & Grills">BBQ & Grills</option>
@@ -109,8 +140,8 @@ const Add = () => {
             />
           </div>
         </div>
-        <button type="submit" className="add-button">
-          Add Food
+        <button type="submit" className="add-button" disabled={isLoading}>
+          {isLoading ? "Adding..." : "Add Food"}
         </button>
       </form>
     </div>

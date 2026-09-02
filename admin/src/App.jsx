@@ -1,5 +1,7 @@
 import Navbar from './components/Navbar/Navbar'
 import Sidebar from './components/Sidebar/Sidebar'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { Route, Routes } from 'react-router-dom'
 import Add from './pages/Add/Add'
 import List from './pages/List/List'
@@ -9,7 +11,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <main className='app-contect'>
+      <main className='app-content'>
         <Sidebar />
         <Routes>
           <Route path='/add' element={<Add />} />
@@ -17,6 +19,7 @@ const App = () => {
           <Route path='/orders' element={<Orders />} />
         </Routes>
       </main>
+      <ToastContainer />
     </>
   )
 }
