@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext';
 
 const PlaceOrder = () => {
 
   const { getTotalCartAmount } = useContext(StoreContext);
+  const subtotal = getTotalCartAmount();
 
   return (
     <form className='place-order'>
@@ -34,15 +35,15 @@ const PlaceOrder = () => {
           <h2>Cart Total</h2>
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${getTotalCartAmount()}</span>
+            <span>${subtotal.toFixed(2)}</span>
           </div>
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>${getTotalCartAmount()=== 0?0:2}</span>
+            <span>${subtotal === 0?0:2}</span>
           </div>
           <div className="summary-row total">
             <strong>Total</strong>
-            <strong> ${getTotalCartAmount()=== 0?0:getTotalCartAmount() + 2}</strong>
+            <strong> ${subtotal === 0?0:(subtotal + 2).toFixed(2)}</strong>
           </div>
           <button className="checkout-btn">
             Proceed to Payment

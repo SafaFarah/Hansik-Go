@@ -4,6 +4,7 @@
     background: url('/header-img1.jpg') no-repeat;
     background-size: cover;
     position: relative;
+    border-radius: 40px;
 }
  
 .header-content {

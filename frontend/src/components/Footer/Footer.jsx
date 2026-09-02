@@ -1,4 +1,3 @@
-import React from 'react'
 import './Footer.css'
 import { SiFacebook, SiX } from "@icons-pack/react-simple-icons"
 import { FaLinkedin } from "react-icons/fa";
@@ -10,7 +9,9 @@ const Footer = () => {
         <footer className='footer' id='footer'>
             <div className='footer-content'>
                 <section className='footer-content-left'>
-                    <img src={assets.logo} alt='HansikGo logo' />
+                    <div className="footer-logo">
+                        <img src={assets.logo} alt='HansikGo logo' />
+                    </div>
                     <p>HansikGo brings the authentic taste of Korean cuisine right to your doorstep.
                         Explore traditional dishes, discover new favorites, and enjoy fast,
                         reliable delivery made with quality and care.</p>
@@ -41,8 +42,8 @@ const Footer = () => {
                     <h2>GET IN TOUCH</h2>
                     <ul>
                         <li>
-                            <a href="tel:+96654321789">
-                                +966 54 321 789
+                            <a href="tel:+96600000000">
+                                +966 00 000 000
                             </a>
                         </li>
                         <li>

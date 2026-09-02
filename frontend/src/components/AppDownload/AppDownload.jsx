@@ -1,4 +1,3 @@
-import React from 'react'
 import './AppDownload.css'
 import { FaGooglePlay } from 'react-icons/fa'
 import { assets } from '../../assets/assets'

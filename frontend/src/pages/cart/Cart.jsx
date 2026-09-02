@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { Trash2 } from "lucide-react";
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const Cart = () => {
 
   const { cartItems, food_list, removeFromCart, addToCart, getTotalCartAmount } = useContext(StoreContext);
-
+  const subtotal = getTotalCartAmount();
   const navigate = useNavigate();
 
   return (
@@ -26,7 +26,7 @@ const Cart = () => {
 
                   <div className="cart-info">
                     <h3>{item.name}</h3>
-                    <p className="item-price">${item.price}</p>
+                    <p className="item-price">${(item.priceCent / 100).toFixed(2)}</p>
                   </div>
 
                   <div className="cart-actions">
@@ -46,7 +46,7 @@ const Cart = () => {
                     </div>
 
                     <p className="item-total">
-                      ${item.price * cartItems[item._id]}
+                      ${((item.priceCent / 100) * cartItems[item._id]).toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -59,15 +59,15 @@ const Cart = () => {
           <h2>Order Summary</h2>
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${getTotalCartAmount()}</span>
+            <span>${subtotal.toFixed(2)}</span>
           </div>
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>${getTotalCartAmount()=== 0?0:2}</span>
+            <span>${subtotal === 0?0:2}</span>
           </div>
           <div className="summary-row total">
             <strong>Total</strong>
-            <strong> ${getTotalCartAmount()=== 0?0:getTotalCartAmount() + 2}</strong>
+            <strong> ${subtotal === 0?0:(subtotal + 2).toFixed(2)}</strong>
           </div>
           <div className="promo">
             <input type="text" placeholder="Promo Code" />

@@ -1,6 +1,5 @@
 import FoodModel from "../models/FoodModel.js";
 import fs from 'fs';
-import foodRouter from "../routes/foodRoute.js";
 
 //add food item
 const addFood = async (req, res) => {
@@ -10,7 +9,7 @@ const addFood = async (req, res) => {
   const food = new FoodModel({
     name: req.body.name,
     image: imageFilename,
-    price: req.body.price,
+    priceCent: req.body.priceCent,
     description: req.body.description,
     category: req.body.category
   })

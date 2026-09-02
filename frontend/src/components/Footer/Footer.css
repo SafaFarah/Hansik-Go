@@ -18,10 +18,16 @@
     gap: 80px;
 }
 
-.footer-content-left img {
-    width: 80px;
-    height: 80px;
+.footer-logo {
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
 
+.footer-logo img {
+  width: 200px;
+  height: auto;
 }
 
 .footer-content-left,

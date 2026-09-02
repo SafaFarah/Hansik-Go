@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import './Navbar.css'
 import { assets } from '../../assets/assets'
 import { Search, ShoppingBasketIcon } from 'lucide-react';

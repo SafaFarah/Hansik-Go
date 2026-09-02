@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import './FoodItem.css'
 import { MinusIcon, PlusIcon, StarIcon } from 'lucide-react'
 import { StoreContext } from '../../context/StoreContext'
 
-const FoodItem = ({id, name, image, price, description}) => {
+const FoodItem = ({id, name, image, priceCent, description}) => {
 
     const {cartItems, addToCart, removeFromCart} = useContext(StoreContext);
 
@@ -30,7 +30,7 @@ const FoodItem = ({id, name, image, price, description}) => {
                 <StarIcon />
             </div>
             <p className='food-item-desc'>{description}</p>
-            <p className='food-item-price'>${price}</p>
+            <p className='food-item-price'>${(priceCent / 100).toFixed(2)}</p>
         </div>
     </article>
   )
