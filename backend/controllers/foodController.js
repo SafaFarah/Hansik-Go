@@ -51,12 +51,11 @@ const addFood = async (req, res) => {
 //foods list
 const listFood = async (req, res) => {
   try {
-    const foods = await FoodModel.find({});
-    res.json({ success: true, data: foods })
+    const foods = await FoodModel.find();
+    res.status(200).json({ data: foods })
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      success: false,
       message: "Failed to retrieve food items.",
     });
   }

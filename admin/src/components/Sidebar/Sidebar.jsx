@@ -10,11 +10,11 @@ const Sidebar = () => {
           <PlusCircle />
           <p>Add Items</p>
         </NavLink>
-        <NavLink to='./list' className="sidebar-option">
+        <NavLink to='/list' className="sidebar-option">
           <List />
           <p>List Items</p>
         </NavLink>
-        <NavLink to='./orders' className="sidebar-option">
+        <NavLink to='/orders' className="sidebar-option">
           <ShoppingBag />
           <p>Orders</p>
         </NavLink>

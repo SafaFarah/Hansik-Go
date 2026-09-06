@@ -1,0 +1,84 @@
+.list-title {
+  color: #013215;
+  font-size: max(2vw, 24px);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.list-table {
+  border: 1px solid #9BFDC4;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.list-table-format {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 0.5fr;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #9BFDC4;
+  font-size: 14px;
+}
+
+.list-table-format p:nth-child(2) {
+  justify-self: start;
+}
+
+.list-table-format b:nth-child(2) {
+  justify-self: start;
+}
+
+.list-table-format:last-child {
+  border-bottom: none;
+}
+
+
+
+.list-table-format img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+.list-table-format .delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background-color: transparent;
+  color: #db3434;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.list-table-format .delete-btn:hover {
+    color: #b71c1c;
+}
+
+
+@media (max-width: 600px) {
+  .list-table-format {
+    grid-template-columns: 0.5fr 1.5fr 1fr 1fr 0.5fr;
+    gap: 5px;
+    padding: 10px 15px;
+  }
+
+  .list-table .title {
+    display: none;
+  }
+
+  .list-table-format img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .list-table-format p {
+    font-size: 13px;
+  }
+}
