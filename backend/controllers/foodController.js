@@ -82,7 +82,7 @@ const removeFood = async (req, res) => {
 
     // delete food
     await food.deleteOne();
-    res.json({ success: true, message: "Food removed" })
+    res.json({ success: true, message: "Food removed successfully." })
 
   } catch (error) {
     console.error(error);
