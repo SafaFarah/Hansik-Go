@@ -4,25 +4,28 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .logo {
-  height: clamp(60px, 7vw, 90px);
-  width: auto;
-  display: block;
+    height: clamp(60px, 7vw, 90px);
+    width: auto;
+    display: block;
 }
- .navbar-menu {
+
+.navbar-menu {
     display: flex;
     list-style: none;
     gap: 40px;
     color: #013215;
     font-size: 20px;
- }
- .navbar-right {
+}
+
+.navbar-right {
     display: flex;
     align-items: center;
     gap: 40px;
- }
+}
 
- .navbar button {
+.sign-in-btn {
     background: #02642B;
     font-size: 18px;
     color: white;
@@ -31,15 +34,15 @@
     border-radius: 40px;
     cursor: pointer;
     transition: 0.2s;
- }
+}
 
- .navbar button:hover {
+.sign-in-btn:hover {
     opacity: 70%;
- }
+}
 
 .navbar .active {
     padding-bottom: 2px;
-    border-bottom: 2px solid   #02642B;
+    border-bottom: 2px solid #02642B;
     color: #02642B;
 }
 
@@ -48,18 +51,20 @@
 }
 
 .navbar-search svg {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
 }
+
 .navbar-Basket-icon {
     position: relative;
 }
 
 .navbar-Basket-icon svg {
-  width: 35px;
-  height: 35px;
-} 
+    width: 35px;
+    height: 35px;
+}
+
 .navbar-Basket-icon .dot {
     position: absolute;
     min-width: 10px;
@@ -70,53 +75,125 @@
     right: -8px;
 }
 
+.profile-menu {
+    position: relative;
+}
+
+.profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 2px solid #02642B;
+    border-radius: 50%;
+    color: #02642B;
+    background: #f5eef2;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.profile-icon:hover {
+    color: #f5eef2;
+    background: #02642B;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 150px;
+    background: #fff;
+    padding: 6px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.profile-dropdown button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border: none;
+    background: transparent;
+    color: #333;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.profile-dropdown button:hover {
+    color: #02642B;
+}
+
+.profile-dropdown hr {
+    border: none;
+    border-top: 1px solid #cfcfcf;
+}
+
 @media (max-width:1050px) {
-    .navbar .logo{
+    .navbar .logo {
         width: 140px;
     }
-    .navbar-menu{
+
+    .navbar-menu {
         gap: 20px;
         font-size: 17px;
     }
-    .navbar-right{
+
+    .navbar-right {
         gap: 30px;
     }
-    .navbar-search svg{
+
+    .navbar-search svg {
         width: 22px;
     }
+
     .navbar-Basket-icon svg {
         width: 26px;
     }
-    .navbar button {
+
+    .sign-in-btn {
         padding: 8px 25px;
     }
 }
 
 @media (max-width:900px) {
-    .navbar .logo{
+    .navbar .logo {
         width: 120px;
     }
-    .navbar-menu{
+
+    .navbar-menu {
         gap: 15px;
         font-size: 16px;
     }
-    .navbar-right{
+
+    .navbar-right {
         gap: 20px;
     }
-    .navbar-search svg{
+
+    .navbar-search svg {
         width: 20px;
     }
+
     .navbar-Basket-icon svg {
         width: 24px;
     }
-    .navbar button {
+
+    .sign-in-btn {
         padding: 7px 20px;
         font-size: 15px;
     }
 }
 
 @media (max-width:750px) {
-    .navbar-menu{
+    .navbar-menu {
         display: none;
     }
 

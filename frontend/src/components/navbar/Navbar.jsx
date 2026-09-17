@@ -1,35 +1,42 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import './Navbar.css'
 import { assets } from '../../assets/assets'
-import { Search, ShoppingBasketIcon } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom'
+import { Search, ShoppingBasketIcon, UserRound, Package, LogOut } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { StoreContext } from '../../context/StoreContext';
 
 export const Navbar = ({ setShowLogin }) => {
 
     const location = useLocation();
+    const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
+    const [showProfileMenu, setShowProfileMenu] = useState(false)
+    const navigate = useNavigate()
 
-    const { getTotalCartAmount } = useContext(StoreContext);
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        setToken('')
+        navigate('/')
+    }
 
     return (
         <nav className='navbar'>
             <Link to='/'><img src={assets.logo} alt='HansikGo logo' className='logo' /></Link>
             <ul className='navbar-menu'>
                 <li>
-                <Link to='/' className={location.pathname === "/" && location.hash === ""
-                    ? "active" : ""}>Home</Link>
+                    <Link to='/' className={location.pathname === "/" && location.hash === ""
+                        ? "active" : ""}>Home</Link>
                 </li>
                 <li>
-                <Link to="/#explore-menu" className={location.hash === "#explore-menu"
-                    ? "active" : ""}>Menu</Link>
+                    <Link to="/#explore-menu" className={location.hash === "#explore-menu"
+                        ? "active" : ""}>Menu</Link>
                 </li>
                 <li>
-                <Link to="/#app-download" className={location.hash === "#app-download"
-                    ? "active" : ""}>Mobile App</Link>
+                    <Link to="/#app-download" className={location.hash === "#app-download"
+                        ? "active" : ""}>Mobile App</Link>
                 </li>
                 <li>
-                <Link to="/#footer" className={location.hash === "#footer"
-                    ? "active" : ""}>Contact us</Link>
+                    <Link to="/#footer" className={location.hash === "#footer"
+                        ? "active" : ""}>Contact us</Link>
                 </li>
             </ul>
             <div className='navbar-right'>
@@ -40,7 +47,37 @@ export const Navbar = ({ setShowLogin }) => {
                     <Link to='/cart' aria-label="Shopping Cart"><ShoppingBasketIcon /></Link>
                     <div className={getTotalCartAmount() === 0 ? "" : 'dot'}></div>
                 </div>
-                <button onClick={() => setShowLogin(true)}>Sign in</button>
+                {!token ? (
+                    <button 
+                    className="sign-in-btn"
+                    onClick={() => setShowLogin(true)}>
+                        Sign in
+                    </button>
+                ) : (
+                    <div className="profile-menu">
+                        <button
+                            className="profile-icon"
+                            onClick={() => setShowProfileMenu(prev => !prev)}
+                            aria-label="Open profile menu"
+                        >
+                            <UserRound size={24} />
+                        </button>
+
+                        {showProfileMenu && (
+                            <div className="profile-dropdown">
+                                <button>
+                                    <Package size={20} />
+                                    <span>Orders</span>
+                                </button>
+                                <hr />
+                                <button onClick={handleLogout}>
+                                    <LogOut size={20} />
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </nav>
     )
