@@ -10,7 +10,7 @@ const FoodItem = ({id, name, image, priceCent, description}) => {
   return (
     <article className='food-item'>
         <div className='food-item-img-container'>
-            <img className='food-item-img' src={image} alt={name} />
+            <img className='food-item-img' src={`${import.meta.env.VITE_SERVER_URL}/images/${image}`} alt={name} />
             {!cartItems[id]
                 ?<div className='add-item' onClick={()=>addToCart(id)}><PlusIcon /></div>
                 :<div className='food-item-counter'>

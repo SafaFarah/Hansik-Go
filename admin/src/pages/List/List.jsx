@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { Trash2 } from "lucide-react"
 
-const List = ({url}) => {
+const List = () => {
 
   const [list, setList] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null)
@@ -62,7 +62,7 @@ const List = ({url}) => {
         </div>
         {list.map((item) => (
           <div key={item._id} className="list-table-format">
-            <img src={`${url}/images/${item.image}`} alt={item.name} />
+            <img src={`${import.meta.env.VITE_SERVER_URL}/images/${item.image}`} alt={item.name} />
             <p>{item.name}</p>
             <p>{item.category}</p>
             <p>${(item.priceCent / 100).toFixed(2)}</p>

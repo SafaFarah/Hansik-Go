@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import { food_list } from "../assets/assets";
+import { createContext, useState, useEffect } from "react";
+import api from "../services/api"
 
 export const StoreContext = createContext(null)
 
@@ -9,7 +9,22 @@ const StoreContextProvider = (props) => {
     const [token, setToken] = useState(
         localStorage.getItem("token") || ""
     )
+    const [food_list, setFoodList] = useState([]);
 
+    const fetchFoodList = async () => {
+        try {
+            const response = await api.get("/food/list");
+            setFoodList(response.data.data);
+        } catch (error) {
+            console.error("Error fetching food list:", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchFoodList();
+    }, []);
+
+    
     const addToCart = (itemId) => {
         if (!cartItems[itemId]) {
             setItemCount((prev) => ({ ...prev, [itemId]: 1 }))
@@ -38,6 +53,7 @@ const StoreContextProvider = (props) => {
 
     const contextValue = {
         food_list,
+        setFoodList,
         cartItems,
         addToCart,
         removeFromCart,

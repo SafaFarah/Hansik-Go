@@ -21,7 +21,7 @@ const Cart = () => {
               return (
                 <div className="cart-card">
                   <div className="cart-image">
-                    <img src={item.image} alt={item.name} />
+                    <img src={`${import.meta.env.VITE_SERVER_URL}/images/${item.image}`} alt={item.name} />
                   </div>
 
                   <div className="cart-info">
