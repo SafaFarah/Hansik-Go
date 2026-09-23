@@ -33,8 +33,9 @@ const LoginPopup = ({ setShowLogin }) => {
 
     try {
       const response = await api.post(currentState === "Login" ? "/user/login" : "/user/register", data)
-      setToken(response.data.token);
-      localStorage.setItem("token", response.data.token);
+      const token = response.data.token
+      localStorage.setItem('token', token)
+      setToken(token)
       setShowLogin(false)
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Something went wrong.");

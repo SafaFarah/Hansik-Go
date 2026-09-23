@@ -6,6 +6,8 @@ import Home from './pages/home/Home'
 import PlaceOrder from './pages/placeOrder/PlaceOrder'
 import Footer from './components/Footer/Footer'
 import LoginPopup from './components/LoginPopup/LoginPopup'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 const App = () => {
@@ -23,6 +25,7 @@ const App = () => {
         </Routes>
       </main>
       <Footer />
+      <ToastContainer />
     </>
   )
 }
