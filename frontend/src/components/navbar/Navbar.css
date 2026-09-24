@@ -60,6 +60,12 @@
     position: relative;
 }
 
+.navbar-Basket-icon button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 .navbar-Basket-icon svg {
     width: 35px;
     height: 35px;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Navbar } from './components/navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import Cart from './pages/cart/Cart'
@@ -8,20 +8,32 @@ import Footer from './components/Footer/Footer'
 import LoginPopup from './components/LoginPopup/LoginPopup'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { StoreContext } from './context/StoreContext'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 
 const App = () => {
-  const [ showLogin, setShowLogin] = useState(false)
+
+  const { showLogin, setShowLogin } = useContext(StoreContext)
 
   return (
     <>
-    {showLogin?<LoginPopup setShowLogin={setShowLogin} />:<></>}
+      {showLogin && (
+        <LoginPopup setShowLogin={setShowLogin} />
+      )}
       <main className='app'>
-        <Navbar setShowLogin={setShowLogin}/>
+        <Navbar setShowLogin={setShowLogin} />
         <Routes>
           <Route path='/' element={<Home />} />
-          < Route path='/cart' element={<Cart />} />
-          < Route path='/order' element={<PlaceOrder />} />
+          < Route path='/cart' element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>} />
+          < Route path='/order' element={
+            <ProtectedRoute>
+              <PlaceOrder />
+            </ProtectedRoute>
+          } />
         </Routes>
       </main>
       <Footer />

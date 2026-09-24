@@ -8,7 +8,7 @@ import { StoreContext } from '../../context/StoreContext';
 export const Navbar = ({ setShowLogin }) => {
 
     const location = useLocation();
-    const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
+    const { getTotalCartAmount, token, setToken, requireAuth } = useContext(StoreContext);
     const [showProfileMenu, setShowProfileMenu] = useState(false)
     const navigate = useNavigate()
 
@@ -17,6 +17,7 @@ export const Navbar = ({ setShowLogin }) => {
         setToken('')
         navigate('/')
     }
+
 
     return (
         <nav className='navbar'>
@@ -44,13 +45,21 @@ export const Navbar = ({ setShowLogin }) => {
                     <Search />
                 </div>
                 <div className='navbar-Basket-icon'>
-                    <Link to='/cart' aria-label="Shopping Cart"><ShoppingBasketIcon /></Link>
+                    <button
+                        onClick={() => {
+                            if (!requireAuth()) return
+                            navigate('/cart')
+                        }}
+                        aria-label="Shopping Cart"
+                    >
+                        <ShoppingBasketIcon />
+                    </button>
                     <div className={getTotalCartAmount() === 0 ? "" : 'dot'}></div>
                 </div>
                 {!token ? (
-                    <button 
-                    className="sign-in-btn"
-                    onClick={() => setShowLogin(true)}>
+                    <button
+                        className="sign-in-btn"
+                        onClick={() => setShowLogin(true)}>
                         Sign in
                     </button>
                 ) : (

@@ -3,11 +3,11 @@ import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { Trash2 } from "lucide-react";
 import { useNavigate } from 'react-router-dom'
- 
+
 
 const Cart = () => {
 
-  const { cartItems, food_list, removeFromCart, addToCart, getTotalCartAmount } = useContext(StoreContext);
+  const { cartItems, food_list, removeFromCart, addToCart, getTotalCartAmount, requireAuth } = useContext(StoreContext);
   const subtotal = getTotalCartAmount();
   const navigate = useNavigate();
 
@@ -32,15 +32,26 @@ const Cart = () => {
                   <div className="cart-actions">
                     <div className="quantity">
                       {cartItems[item._id] === 1 ? (
-                        <button className="delete-btn" onClick={() => removeFromCart(item._id)}>
+                        <button className="delete-btn" onClick={() => {
+                          if (!requireAuth()) return
+                          removeFromCart(item._id)
+                        }}>
                           <Trash2 />
                         </button>
                       ) : (
-                        <button className="minus-btn" onClick={() => removeFromCart(item._id)}>-</button>
+                        <button className="minus-btn" onClick={() => {
+                          if (!requireAuth()) return
+                          removeFromCart(item._id)
+                        }}>
+                          -
+                        </button>
                       )}
                       <span>{cartItems[item._id]}</span>
 
-                      <button className="plus-btn" onClick={() => addToCart(item._id)}>
+                      <button className="plus-btn" onClick={() => {
+                        if (!requireAuth()) return
+                        addToCart(item._id)
+                      }}>
                         +
                       </button>
                     </div>
@@ -63,17 +74,23 @@ const Cart = () => {
           </div>
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>${subtotal === 0?0:2}</span>
+            <span>${subtotal === 0 ? 0 : 2}</span>
           </div>
           <div className="summary-row total">
             <strong>Total</strong>
-            <strong> ${subtotal === 0?0:(subtotal + 2).toFixed(2)}</strong>
+            <strong> ${subtotal === 0 ? 0 : (subtotal + 2).toFixed(2)}</strong>
           </div>
           <div className="promo">
             <input type="text" placeholder="Promo Code" />
             <button>Apply</button>
           </div>
-          <button className="checkout-btn" onClick={()=>navigate('/order')}>
+          <button
+            className="checkout-btn"
+            onClick={() => {
+              if (!requireAuth()) return
+              navigate('/order')
+            }}
+          >
             Proceed to Checkout
           </button>
         </div>

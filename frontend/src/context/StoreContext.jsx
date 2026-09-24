@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import api from "../services/api"
+import { isTokenValid } from "../utils/auth"
 import { toast } from 'react-toastify'
 
 export const StoreContext = createContext(null)
@@ -7,9 +8,28 @@ export const StoreContext = createContext(null)
 const StoreContextProvider = (props) => {
     const [food_list, setFoodList] = useState([]);
     const [cartItems, setCartItems] = useState({});
+
+    const [showLogin, setShowLogin] = useState(false)
+
+    const storedToken = localStorage.getItem("token")
+    const validToken = isTokenValid(storedToken)
+    if (storedToken && !validToken) {
+        localStorage.removeItem("token")
+    }
     const [token, setToken] = useState(
-        localStorage.getItem("token") || ""
+        validToken ? storedToken : ""
     )
+
+    const requireAuth = () => {
+        if (!token || !isTokenValid(token)) {
+            localStorage.removeItem("token")
+            setToken("")
+            setShowLogin(true)
+            return false
+        }
+        return true
+    }
+
 
     // Get food from database
     const fetchFoodList = async () => {
@@ -104,12 +124,18 @@ const StoreContextProvider = (props) => {
 
     const contextValue = {
         food_list,
+        
         cartItems,
         addToCart,
         removeFromCart,
         getTotalCartAmount,
+
         token,
-        setToken
+        setToken,
+        requireAuth,
+
+        showLogin,
+        setShowLogin
     }
 
     return (
