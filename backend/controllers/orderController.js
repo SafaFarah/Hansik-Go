@@ -1,6 +1,8 @@
 import UserModel from '../models/userModel.js'
 import FoodModel from '../models/FoodModel.js'
 import OrderModel from '../models/orderModel.js'
+import Stripe from 'stripe'
+import stripe from '../config/stripe.js'
 
 
 const placeOrder = async (req, res) => {
@@ -109,4 +111,147 @@ const placeOrder = async (req, res) => {
   }
 }
 
-export { placeOrder }
+
+  const createCheckoutSession = async (req, res) => {
+    try {
+        const { orderId } = req.body
+        const userId = req.userId
+
+        //  Validate the order ID
+        if (!orderId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Order ID is required.'
+            })
+        }
+
+        // Find the order and it belongs to the logged-in user
+        const order = await OrderModel.findOne({
+            _id: orderId,
+            userId
+        })
+
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: 'Order not found.'
+            })
+        }
+
+        // the order has not already been paid
+        if (order.paymentStatus === 'paid') {
+            return res.status(400).json({
+                success: false,
+                message: 'Order has already been paid.'
+            })
+        }
+
+        // Convert order items into Stripe line items
+        const lineItems = order.items.map((item) => ({
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: item.name
+                },
+                unit_amount: item.priceCent
+            },
+            quantity: item.quantity
+        }))
+
+        // Create the Stripe Checkout Session
+        const session = await stripe.checkout.sessions.create({
+            mode: 'payment',
+            line_items: lineItems,
+            customer_email: order.address.email,
+            success_url: `${process.env.FRONTEND_URL}/verify?success=true&orderId=${order._id}`,
+            cancel_url: `${process.env.FRONTEND_URL}/verify?success=false&orderId=${order._id}`,
+            metadata: {
+                orderId: order._id.toString()
+            }
+        })
+
+        //  Return the Stripe Checkout URL
+        return res.status(200).json({
+            success: true,
+            sessionUrl: session.url
+        })
+
+    } catch (error) {
+        console.error('Error creating Stripe Checkout Session:', error)
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to create payment session.'
+        })
+    }
+}
+
+const handleStripeWebhook = async (req, res) => {
+    const signature = req.headers['stripe-signature']
+
+    let event
+
+    try {
+        // Verify that this webhook actually came from Stripe
+        event = Stripe.webhooks.constructEvent(
+            req.body,
+            signature,
+            process.env.STRIPE_WEBHOOK_SECRET
+        )
+    } catch (error) {
+        console.error('Stripe webhook verification failed:', error.message)
+        return res.status(400).send(`Webhook Error: ${error.message}`)
+    }
+
+    try {
+        // Handle successful Checkout payment
+        if (event.type === 'checkout.session.completed') {
+            const session = event.data.object
+            const orderId = session.metadata.orderId
+
+            if (!orderId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Order ID is missing from Stripe session.'
+                })
+            }
+            const order = await OrderModel.findById(orderId)
+            if (!order) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Order not found.'
+                })
+            }
+
+            // Prevent processing the same successful payment twice
+            if (order.paymentStatus === 'paid') {
+                return res.status(200).json({
+                    received: true
+                })
+            }
+
+            // Mark the order as paid
+            order.paymentStatus = 'paid'
+            // Move the order into processing
+            order.orderStatus = 'processing'
+            await order.save()
+            // Clear the user's cart only after successful payment
+            await UserModel.findByIdAndUpdate(order.userId, {
+                cartData: {}
+            })
+        }
+
+        return res.status(200).json({
+            received: true
+        })
+
+    } catch (error) {
+        console.error('Error processing Stripe webhook:', error)
+
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to process Stripe webhook.'
+        })
+    }
+}
+
+export { placeOrder, createCheckoutSession, handleStripeWebhook }

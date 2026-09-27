@@ -75,13 +75,12 @@ const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const newUser = new UserModel({
+    const user = await UserModel.create({
       name,
       email,
       password: hashedPassword
     });
 
-    const user = await newUser.save();
     const token = generateToken(user._id);
     return res.status(201).json({ success: true, token });
   } catch (error) {

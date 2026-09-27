@@ -30,7 +30,7 @@ const addFood = async (req, res) => {
       })
     }
 
-    const food = new FoodModel({
+    const food = await FoodModel.create({
       name,
       image: req.file.filename,
       priceCent: price,
@@ -38,7 +38,6 @@ const addFood = async (req, res) => {
       category
     })
 
-    await food.save();
     res.status(201).json({ message: "Food added successfully." })
   } catch (error) {
     console.error(error);

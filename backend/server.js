@@ -6,12 +6,18 @@ import userRouter from "./routes/userRoute.js"
 import cartRouter from "./routes/cartRoute.js"
 import orderRouter from './routes/orderRoute.js'
 import 'dotenv/config'
+import { handleStripeWebhook } from './controllers/orderController.js'
 
 // app config
 
 const app = express()
 const port = process.env.PORT || 4000
 
+app.post(
+    '/api/order/webhook',
+    express.raw({ type: 'application/json' }),
+    handleStripeWebhook
+)
 
 // middleware
 app.use(express.json());
