@@ -254,4 +254,38 @@ const handleStripeWebhook = async (req, res) => {
     }
 }
 
-export { placeOrder, createCheckoutSession, handleStripeWebhook }
+const getOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params
+        const userId = req.userId
+
+        // Find the order belonging to the logged-in user
+        const order = await OrderModel.findOne({
+            _id: orderId,
+            userId
+        })
+
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: 'Order not found.'
+            })
+        }
+
+        // Return only the information needed by the frontend
+        return res.status(200).json({
+            success: true,
+            paymentStatus: order.paymentStatus,
+            orderStatus: order.orderStatus
+        })
+
+    } catch (error) {
+        console.error('Error getting order:', error)
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to retrieve order.'
+        })
+    }
+}
+
+export { placeOrder, createCheckoutSession, handleStripeWebhook, getOrder }

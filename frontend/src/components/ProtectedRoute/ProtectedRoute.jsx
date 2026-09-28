@@ -1,24 +1,26 @@
 import { Navigate } from 'react-router-dom'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../../context/StoreContext'
 import { isTokenValid } from '../../utils/auth'
 
 const ProtectedRoute = ({ children }) => {
-  const { token, setShowLogin } = useContext(StoreContext)
+    const { token, setShowLogin } = useContext(StoreContext)
 
-  const valid = Boolean(token && isTokenValid(token))
+    const [allowed] = useState(() => {
+        return Boolean(token && isTokenValid(token))
+    })
 
-  useEffect(() => {
-    if (!valid) {
-      setShowLogin(true)
+    useEffect(() => {
+        if (!allowed) {
+            setShowLogin(true)
+        }
+    }, [allowed, setShowLogin])
+
+    if (!allowed) {
+        return <Navigate to="/" replace />
     }
-  }, [valid])
 
-  if (!valid) {
-    return <Navigate to="/" replace />
-  }
-
-  return children
+    return children
 }
 
 export default ProtectedRoute

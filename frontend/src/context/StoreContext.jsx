@@ -30,7 +30,6 @@ const StoreContextProvider = (props) => {
         return true
     }
 
-
     // Get food from database
     const fetchFoodList = async () => {
         try {

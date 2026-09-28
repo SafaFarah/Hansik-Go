@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { StoreContext } from './context/StoreContext'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+import Verify from './pages/Verify/Verify'
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
               <PlaceOrder />
             </ProtectedRoute>
           } />
+          <Route path="/verify" element={<Verify />} />
         </Routes>
       </main>
       <Footer />

@@ -1,0 +1,83 @@
+
+.verify {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.verify h2 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #02642B;
+}
+
+.verify p {
+    max-width: 500px;
+    margin: 0 0 30px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.verify .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.verify button {
+    min-width: 140px;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    background: #02642B;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.verify button:hover {
+    background: #014d21;
+}
+
+.verify .secondary-btn {
+    background: #eee;
+    color: #333;
+}
+
+.verify .secondary-btn:hover {
+    background: #ddd;
+}
+
+@media (max-width: 480px) {
+    .verify {
+        min-height: 55vh;
+        padding: 40px 16px;
+    }
+
+    .verify h2 {
+        font-size: 24px;
+    }
+
+    .verify p {
+        font-size: 14px;
+    }
+
+    .verify .actions {
+        width: 100%;
+        flex-direction: column;
+        max-width: 280px;
+    }
+
+    .verify button {
+        width: 100%;
+        margin: 0;
+    }
+}

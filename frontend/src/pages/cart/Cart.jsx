@@ -19,7 +19,7 @@ const Cart = () => {
           {food_list.map((item) => {
             if (cartItems[item._id] > 0) {
               return (
-                <div className="cart-card">
+                <div key={item._id} className="cart-card">
                   <div className="cart-image">
                     <img src={`${import.meta.env.VITE_SERVER_URL}/images/${item.image}`} alt={item.name} />
                   </div>
@@ -74,11 +74,11 @@ const Cart = () => {
           </div>
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>${subtotal === 0 ? 0 : 2}</span>
+            <span>${subtotal === 0 ? 0 : 5}</span>
           </div>
           <div className="summary-row total">
             <strong>Total</strong>
-            <strong> ${subtotal === 0 ? 0 : (subtotal + 2).toFixed(2)}</strong>
+            <strong> ${subtotal === 0 ? 0 : (subtotal + 5).toFixed(2)}</strong>
           </div>
           <div className="promo">
             <input type="text" placeholder="Promo Code" />
