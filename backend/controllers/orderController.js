@@ -254,6 +254,7 @@ const handleStripeWebhook = async (req, res) => {
     }
 }
 
+
 const getOrder = async (req, res) => {
     try {
         const { orderId } = req.params
@@ -288,4 +289,29 @@ const getOrder = async (req, res) => {
     }
 }
 
-export { placeOrder, createCheckoutSession, handleStripeWebhook, getOrder }
+
+const getUserOrders = async (req, res) => {
+    try {
+        const userId = req.userId
+
+        // Get only the logged-in user's orders
+        const orders = await OrderModel
+            .find({ userId })
+            .sort({ createdAt: -1 })
+
+        // Return the orders
+        return res.status(200).json({
+            success: true,
+            orders
+        })
+
+    } catch (error) {
+        console.error('Error getting user orders:', error)
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to retrieve orders.'
+        })
+    }
+}
+
+export { placeOrder, createCheckoutSession, handleStripeWebhook, getOrder, getUserOrders }
