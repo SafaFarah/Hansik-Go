@@ -1,6 +1,8 @@
 import express from 'express'
 import authMiddleware from '../middleware/auth.js'
 import { placeOrder, createCheckoutSession, getOrder, getUserOrders, cancelOrder } from '../controllers/orderController.js'
+import { getAdminOrders} from '../controllers/adminOrderController.js'
+import adminMiddleware from '../middleware/adminMiddleware.js'
 
 const orderRouter = express.Router()
 
@@ -15,6 +17,7 @@ orderRouter.post('/cancel', authMiddleware, cancelOrder)
 // Get orders belonging to the logged-in user
 orderRouter.get('/list', authMiddleware, getUserOrders)
 
+orderRouter.get('/admin/list', authMiddleware, adminMiddleware, getAdminOrders)
 
 orderRouter.get('/:orderId', authMiddleware, getOrder)
 

@@ -4,8 +4,13 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: {
+    type: String,
+    enum: ['customer', 'admin'],
+    default: 'customer'
+  },
   cartData: { type: Object, default: {} },
-  },{minimize: false});
+}, { minimize: false });
 
 const UserModel = mongoose.model.user || mongoose.model('user', userSchema);
 
