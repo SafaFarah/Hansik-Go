@@ -4,6 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../services/api'
 import './Verify.css'
+import { LoaderCircle, CircleCheck, CircleX, Clock3, LockKeyhole, SearchX, TriangleAlert, ArrowRight, CreditCard, ShoppingBag, RotateCcw } from 'lucide-react'
 
 const Verify = () => {
   const [searchParams] = useSearchParams()
@@ -169,12 +170,18 @@ const Verify = () => {
   }, [searchParams, token])
 
 
-
   if (status === 'checking') {
     return (
       <div className="verify">
-        <h2>Checking your payment...</h2>
-        <p>Please wait.</p>
+        <div className="verify-card">
+          <div className="verify-icon checking-icon">
+            <LoaderCircle className="spin" size={42} />
+          </div>
+          <h2>Checking your payment...</h2>
+          <p>
+            We're confirming your payment. Please wait a moment.
+          </p>
+        </div>
       </div>
     )
   }
@@ -182,12 +189,20 @@ const Verify = () => {
   if (status === 'success') {
     return (
       <div className="verify">
-        <h2>Payment successful</h2>
-        <p>Your order has been confirmed.</p>
-
-        <button onClick={() => navigate('/')}>
-          Continue Shopping
-        </button>
+        <div className="verify-card">
+          <div className="verify-icon success-icon">
+            <CircleCheck size={48} />
+          </div>
+          <h2>Payment successful</h2>
+          <p>
+            Your payment was confirmed and your order is now being processed.
+          </p>
+          <button onClick={() => navigate('/')}>
+            <ShoppingBag size={18} />
+            Continue Shopping
+            <ArrowRight size={17} />
+          </button>
+        </div>
       </div>
     )
   }
@@ -195,23 +210,40 @@ const Verify = () => {
   if (status === 'cancelled') {
     return (
       <div className="verify">
-        <h2>Payment cancelled</h2>
-        <p>
-          Your order is still waiting for payment.
-        </p>
-        <div className="actions">
-          <button
-            onClick={handleRetryPayment}
-            disabled={isRetrying}
-          >
-            {isRetrying ? 'Loading...' : 'Pay Again'}
-          </button>
-          <button
-            className="secondary-btn"
-            onClick={handleCancelOrder}
-          >
-            Return to Cart
-          </button>
+        <div className="verify-card">
+          <div className="verify-icon cancelled-icon">
+            <CircleX size={48} />
+          </div>
+          <h2>Payment cancelled</h2>
+          <p>
+            Your order is still waiting for payment. You can try again whenever
+            you're ready.
+          </p>
+          <div className="actions">
+            <button
+              onClick={handleRetryPayment}
+              disabled={isRetrying}
+            >
+              {isRetrying ? (
+                <>
+                  <LoaderCircle className="spin" size={18} />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <CreditCard size={18} />
+                  Pay Again
+                </>
+              )}
+            </button>
+            <button
+              className="secondary-btn"
+              onClick={handleCancelOrder}
+            >
+              <RotateCcw size={18} />
+              Return to Cart
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -220,27 +252,33 @@ const Verify = () => {
   if (status === 'pending') {
     return (
       <div className="verify">
-        <h2>Payment is taking a little longer</h2>
-
-        <p>
-          Your payment may still be processing.
-          You can check your order status later.
-        </p>
-
-        <div className="actions">
-          <button onClick={() => {
-            if (!requireAuth()) return
-            navigate('/orders')
-          }}>
-            View My Orders
-          </button>
-
-          <button
-            className="secondary-btn"
-            onClick={() => window.location.reload()}
-          >
-            Check Again
-          </button>
+        <div className="verify-card">
+          <div className="verify-icon pending-icon">
+            <Clock3 size={48} />
+          </div>
+          <h2>Payment is taking a little longer</h2>
+          <p>
+            Your payment may still be processing. You can check your order
+            status later.
+          </p>
+          <div className="actions">
+            <button
+              onClick={() => {
+                if (!requireAuth()) return
+                navigate('/orders')
+              }}
+            >
+              <ShoppingBag size={18} />
+              View My Orders
+            </button>
+            <button
+              className="secondary-btn"
+              onClick={() => window.location.reload()}
+            >
+              <RotateCcw size={18} />
+              Check Again
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -249,32 +287,44 @@ const Verify = () => {
   if (status === 'unauthorized') {
     return (
       <div className="verify">
-        <h2>Please log in</h2>
-        <p>
-          Please log in to check your order status.
-        </p>
-        <button onClick={() => setShowLogin(true)}>
-          Log In
-        </button>
+        <div className="verify-card">
+          <div className="verify-icon unauthorized-icon">
+            <LockKeyhole size={46} />
+          </div>
+          <h2>Please log in</h2>
+          <p>
+            Please log in to check your order status.
+          </p>
+          <button onClick={() => setShowLogin(true)}>
+            <LockKeyhole size={18} />
+            Log In
+          </button>
+        </div>
       </div>
     )
   }
-
   if (status === 'not-found') {
     return (
       <div className="verify">
-        <h2>Order not found</h2>
-        <p>
-          We couldn't find this order.
-          Please check your orders.
-        </p>
-
-        <button onClick={() => {
-          if (!requireAuth()) return
-          navigate('/orders')
-        }}>
-          View My Orders
-        </button>
+        <div className="verify-card">
+          <div className="verify-icon not-found-icon">
+            <SearchX size={46} />
+          </div>
+          <h2>Order not found</h2>
+          <p>
+            We couldn't find this order. Please check your orders.
+          </p>
+          <button
+            onClick={() => {
+              if (!requireAuth()) return
+              navigate('/orders')
+            }}
+          >
+            <ShoppingBag size={18} />
+            View My Orders
+            <ArrowRight size={17} />
+          </button>
+        </div>
       </div>
     )
   }
@@ -282,27 +332,30 @@ const Verify = () => {
   if (status === 'error') {
     return (
       <div className="verify">
-        <h2>Something went wrong</h2>
-
-        <p>
-          We couldn't check your order right now.
-          Please try again.
-        </p>
-
-        <div className="actions">
-          <button onClick={() => window.location.reload()}>
-            Try Again
-          </button>
-
-          <button
-            className="secondary-btn"
-            onClick={() => {
-              if (!requireAuth()) return
-              navigate('/orders')
-            }}
-          >
-            View My Orders
-          </button>
+        <div className="verify-card">
+          <div className="verify-icon error-icon">
+            <TriangleAlert size={46} />
+          </div>
+          <h2>Something went wrong</h2>
+          <p>
+            We couldn't check your order right now. Please try again.
+          </p>
+          <div className="actions">
+            <button onClick={() => window.location.reload()}>
+              <RotateCcw size={18} />
+              Try Again
+            </button>
+            <button
+              className="secondary-btn"
+              onClick={() => {
+                if (!requireAuth()) return
+                navigate('/orders')
+              }}
+            >
+              <ShoppingBag size={18} />
+              View My Orders
+            </button>
+          </div>
         </div>
       </div>
     )

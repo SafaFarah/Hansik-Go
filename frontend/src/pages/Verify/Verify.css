@@ -1,60 +1,147 @@
-
 .verify {
     min-height: 60vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     padding: 60px 20px;
+    background: #fafafa;
 }
 
+.verify-card {
+    width: 100%;
+    max-width: 520px;
+    padding: 45px 35px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.verify-icon {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status icon backgrounds */
+
+.success-icon {
+    color: #02642B;
+    background: #e9f7ef;
+}
+
+.cancelled-icon {
+    color: #b42318;
+    background: #fef0ef;
+}
+
+.pending-icon {
+    color: #a15c00;
+    background: #fff6df;
+}
+
+.checking-icon {
+    color: #02642B;
+    background: #e9f7ef;
+}
+
+.unauthorized-icon {
+    color: #555;
+    background: #f1f1f1;
+}
+
+.not-found-icon {
+    color: #666;
+    background: #f1f1f1;
+}
+
+.error-icon {
+    color: #b42318;
+    background: #fef0ef;
+}
+
+/* Text */
+
 .verify h2 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    color: #222;
     font-size: 28px;
     font-weight: 600;
-    color: #02642B;
+    line-height: 1.3;
 }
 
 .verify p {
-    max-width: 500px;
-    margin: 0 0 30px;
+    max-width: 440px;
+    margin: 0 auto 30px;
     color: #666;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.7;
 }
 
+/* Buttons */
 .verify .actions {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .verify button {
-    min-width: 140px;
+    min-width: 155px;
+    min-height: 46px;
     border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
+    padding: 12px 20px;
+    border-radius: 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
     background: #02642B;
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .verify button:hover {
     background: #014d21;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(2, 100, 43, 0.2);
 }
 
 .verify .secondary-btn {
-    background: #eee;
+    background: #f1f1f1;
     color: #333;
 }
 
 .verify .secondary-btn:hover {
-    background: #ddd;
+    background: #e5e5e5;
+    box-shadow: none;
 }
+
+/* Loading animation */
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
 @media (max-width: 480px) {
     .verify {
@@ -62,22 +149,34 @@
         padding: 40px 16px;
     }
 
+    .verify-card {
+        padding: 35px 22px;
+        border-radius: 14px;
+    }
+
+    .verify-icon {
+        width: 72px;
+        height: 72px;
+        margin-bottom: 18px;
+    }
+
     .verify h2 {
-        font-size: 24px;
+        font-size: 23px;
     }
 
     .verify p {
         font-size: 14px;
+        margin-bottom: 25px;
     }
 
     .verify .actions {
         width: 100%;
         flex-direction: column;
-        max-width: 280px;
     }
 
     .verify button {
         width: 100%;
-        margin: 0;
     }
 }
+
+
