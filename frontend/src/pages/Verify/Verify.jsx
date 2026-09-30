@@ -58,6 +58,40 @@ const Verify = () => {
     }
   }
 
+  const handleCancelOrder = async () => {
+    if (!requireAuth()) return
+    const orderId = searchParams.get('orderId')
+
+    if (!orderId) {
+      navigate('/cart')
+      return
+    }
+
+    try {
+      // Cancel the unpaid order
+      const response = await api.post('/order/cancel', {
+        orderId
+      })
+      if (!response.data.success) {
+        toast.error(
+          response.data.message ||
+          'Unable to cancel the order.'
+        )
+        return
+      }
+      // Return to the cart after cancelling the order
+      navigate('/cart')
+
+    } catch (error) {
+      console.error('Cancel order error:', error)
+
+      toast.error(
+        error.response?.data?.message ||
+        'Unable to cancel the order.'
+      )
+    }
+  }
+
   useEffect(() => {
     let timeoutId
     let attempts = 0
@@ -174,10 +208,7 @@ const Verify = () => {
           </button>
           <button
             className="secondary-btn"
-            onClick={() => {
-              if (!requireAuth()) return
-              navigate('/cart')
-            }}
+            onClick={handleCancelOrder}
           >
             Return to Cart
           </button>

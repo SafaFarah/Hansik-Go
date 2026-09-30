@@ -314,4 +314,66 @@ const getUserOrders = async (req, res) => {
     }
 }
 
-export { placeOrder, createCheckoutSession, handleStripeWebhook, getOrder, getUserOrders }
+const cancelOrder = async (req, res) => {
+    try {
+        const { orderId } = req.body
+        const userId = req.userId
+
+        // Validate the order ID
+        if (!orderId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Order ID is required.'
+            })
+        }
+
+        // Find the order belonging to the logged-in user
+        const order = await OrderModel.findOne({
+            _id: orderId,
+            userId
+        })
+
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: 'Order not found.'
+            })
+        }
+
+        //  Only unpaid orders can be cancelled this way
+        if (order.paymentStatus === 'paid') {
+            return res.status(400).json({
+                success: false,
+                message: 'Paid orders cannot be cancelled this way.'
+            })
+        }
+
+        // Mark the payment as failed and cancel the order
+        order.paymentStatus = 'failed'
+        order.orderStatus = 'cancelled'
+
+        await order.save()
+
+        return res.status(200).json({
+            success: true,
+            message: 'Order cancelled successfully.'
+        })
+
+    } catch (error) {
+        console.error('Error cancelling order:', error)
+
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to cancel order.'
+        })
+    }
+}
+
+export {
+    placeOrder,
+    createCheckoutSession,
+    handleStripeWebhook,
+    getOrder,
+    getUserOrders,
+    cancelOrder
+}

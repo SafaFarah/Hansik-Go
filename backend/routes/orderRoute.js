@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middleware/auth.js'
-import { placeOrder, createCheckoutSession, getOrder, getUserOrders } from '../controllers/orderController.js'
+import { placeOrder, createCheckoutSession, getOrder, getUserOrders, cancelOrder } from '../controllers/orderController.js'
 
 const orderRouter = express.Router()
 
@@ -10,8 +10,11 @@ orderRouter.post('/place', authMiddleware, placeOrder)
 // Create Stripe Checkout Session
 orderRouter.post('/payment', authMiddleware, createCheckoutSession)
 
+orderRouter.post('/cancel', authMiddleware, cancelOrder)
+
 // Get orders belonging to the logged-in user
 orderRouter.get('/list', authMiddleware, getUserOrders)
+
 
 orderRouter.get('/:orderId', authMiddleware, getOrder)
 
