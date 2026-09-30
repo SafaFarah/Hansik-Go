@@ -74,9 +74,14 @@ export const Navbar = ({ setShowLogin }) => {
 
                         {showProfileMenu && (
                             <div className="profile-dropdown">
-                                <button>
+                                <button
+                                    onClick={() => {
+                                        if (!requireAuth()) return
+                                        navigate('/orders')
+                                    }}
+                                >
                                     <Package size={20} />
-                                    <span>Orders</span>
+                                    <span>My Orders</span>
                                 </button>
                                 <hr />
                                 <button onClick={handleLogout}>

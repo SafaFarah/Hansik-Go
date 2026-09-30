@@ -9,7 +9,7 @@ const Verify = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const [status, setStatus] = useState('checking')
-  const { token, setShowLogin } = useContext(StoreContext)
+  const { token, setShowLogin, requireAuth } = useContext(StoreContext)
   const [isRetrying, setIsRetrying] = useState(false)
 
   const handleRetryPayment = async () => {
@@ -174,7 +174,10 @@ const Verify = () => {
           </button>
           <button
             className="secondary-btn"
-            onClick={() => navigate('/cart')}
+            onClick={() => {
+              if (!requireAuth()) return
+              navigate('/cart')
+            }}
           >
             Return to Cart
           </button>
@@ -194,7 +197,10 @@ const Verify = () => {
         </p>
 
         <div className="actions">
-          <button onClick={() => navigate('/orders')}>
+          <button onClick={() => {
+            if (!requireAuth()) return
+            navigate('/orders')
+          }}>
             View My Orders
           </button>
 
@@ -232,7 +238,10 @@ const Verify = () => {
           Please check your orders.
         </p>
 
-        <button onClick={() => navigate('/orders')}>
+        <button onClick={() => {
+          if (!requireAuth()) return
+          navigate('/orders')
+        }}>
           View My Orders
         </button>
       </div>
@@ -256,7 +265,10 @@ const Verify = () => {
 
           <button
             className="secondary-btn"
-            onClick={() => navigate('/orders')}
+            onClick={() => {
+              if (!requireAuth()) return
+              navigate('/orders')
+            }}
           >
             View My Orders
           </button>

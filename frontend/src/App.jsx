@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { StoreContext } from './context/StoreContext'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import Verify from './pages/Verify/Verify'
+import MyOrders from './pages/MyOrders/MyOrders'
 
 
 const App = () => {
@@ -36,6 +37,14 @@ const App = () => {
             </ProtectedRoute>
           } />
           <Route path="/verify" element={<Verify />} />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <MyOrders />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
       <Footer />
